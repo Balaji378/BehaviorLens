@@ -196,9 +196,36 @@ plt.show()
 
 print("\nVisualization complete.")
 
-
 # ─────────────────────────────────────────────────────────────
-# 9. Final Output
+# 9. Save Outputs for Deployment
 # ─────────────────────────────────────────────────────────────
 
+print("\nSaving model artifacts for Streamlit deployment...")
+
+# save feature importance
+feature_importance_df.to_csv(
+    "feature_importance.csv",
+    index=False
+)
+
+# save user feature dataset
+user_features.to_csv(
+    "user_features.csv",
+    index=False
+)
+
+# save trained model
+import joblib
+
+joblib.dump(
+    rf_model,
+    "rf_model.pkl"
+)
+
+print("Saved:")
+print("✓ feature_importance.csv")
+print("✓ user_features.csv")
+print("✓ rf_model.pkl")
+
+# return for notebook display
 feature_importance_df

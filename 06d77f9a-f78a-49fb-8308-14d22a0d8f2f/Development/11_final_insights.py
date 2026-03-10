@@ -62,6 +62,7 @@ print("""
 Analysis of event transitions reveals several dominant workflows.
 
 COMMON SUCCESSFUL WORKFLOW
+One of the most common successful workflows resembles:
 sign_in → canvas_open → block_open → run_block
 
 This pattern suggests successful users quickly move from login
