@@ -143,3 +143,31 @@ By guiding new users toward these behaviors earlier in their
 journey, product teams can significantly improve activation,
 retention, and overall product adoption.
 """)
+
+print("\n" + "="*80)
+print("EARLY SUCCESS SIGNALS")
+print("="*80)
+
+early_success_rate = (
+user_features[user_features["events_first_session"] > 5]
+["successful_user"]
+.mean()
+)
+
+print(f"""
+Users performing more than 5 actions in their first session
+have a success rate of approximately {early_success_rate:.2%}.
+
+This suggests that early engagement strongly predicts
+long-term success.
+
+Product Recommendation
+────────────────────────
+Encourage new users to perform several meaningful actions
+during their first session.
+
+Examples:
+• guided onboarding
+• recommended workflows
+• AI-assisted suggestions
+""")

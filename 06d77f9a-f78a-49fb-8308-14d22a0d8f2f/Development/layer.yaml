@@ -6,8 +6,8 @@ blocks:
 - auto_size: false
   canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
   compute_settings: null
-  description: 'Aggregates event data into user-level features: total events, credits
-    used, sessions, and activity span'
+  description: Aggregates event data into user-level features including engagement
+    metrics, activity duration, and first-session behavior patterns
   height: 1000
   id: 164adb97-ff7c-4c3c-a620-3187c3f18166
   layer_id: 1b20262c-e302-4b54-a078-6748660c9611
@@ -23,8 +23,9 @@ blocks:
 - auto_size: false
   canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
   compute_settings: null
-  description: Trains Random Forest model on user behavioral events to predict long-term
-    success, evaluates accuracy and ROC-AUC, shows confusion matrix and feature importance
+  description: Trains Random Forest classifier with 112 features to predict user success,
+    achieving 97.32% accuracy and 0.998 ROC-AUC, then identifies and visualizes top
+    10 most predictive behaviors via feature importance
   height: 1000
   id: 1bf852bd-8592-4dc2-a239-6b41324cc6cd
   layer_id: 1b20262c-e302-4b54-a078-6748660c9611
