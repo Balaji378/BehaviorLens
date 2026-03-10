@@ -1,0 +1,261 @@
+id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+name: BehaviorLens
+project_id: 67ad609d-e1d5-4623-84df-c9def47e5d23
+global_imports: []
+python_global_imports: ''
+r_global_imports: ''
+requirements: []
+linux_packages: []
+environment_variables: []
+is_public: false
+organization_id: c504e7e9-3a57-4bf5-9cec-347f58a6b375
+layers:
+- blocks:
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: 'Aggregates event data into user-level features: total events, credits
+      used, sessions, and activity span'
+    height: 1000
+    id: 164adb97-ff7c-4c3c-a620-3187c3f18166
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 04_user_features
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 1500
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Trains Random Forest model on user behavioral events to predict long-term
+      success, evaluates accuracy and ROC-AUC, shows confusion matrix and feature
+      importance
+    height: 1000
+    id: 1bf852bd-8592-4dc2-a239-6b41324cc6cd
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 08_success_prediction
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 3500
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Segments users into successful and non-successful categories using
+      80th percentile engagement threshold, displays distribution chart
+    height: 1000
+    id: 2687cfc1-9ab9-475b-9626-2ae85bd7c9c9
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 05_define_success_metric
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 2000
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Renders network graph of top 20 event transitions with force-directed
+      layout, node size by flow volume, color by success rate
+    height: 1000
+    id: 26a0c38a-f736-4ece-b685-6fa770406359
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 10_workflow_graph
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 4500
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: 'Analyzes event distribution and tool usage patterns: identifies
+      top 15 most frequent events and top 10 tools, calculates events per user metrics,
+      creates visual charts, and interprets user engagement concentration'
+    height: 1000
+    id: 5cb901d8-7dfb-4f9a-bbdf-7939e9e84b91
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 03_explore_events
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 1000
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Identifies events most predictive of long-term user success via correlation
+      analysis and creates ranked visualization chart
+    height: 1000
+    id: 8d8ab4e0-5a6f-4191-9a3f-607c91ca8871
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 06_behavior_analysis
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 2500
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: 'Cleans event data: converts timestamps to UTC, sorts by user ID
+      and time, coerces credits to numeric, removes duplicates, and reports missing
+      values and deduplication stats'
+    height: 1000
+    id: a501a4d4-c9ad-4cb7-a833-95df28306177
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 02_data_cleaning
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 500
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Creates 6-panel dashboard comparing successful vs non-successful
+      user engagement metrics
+    height: 1000
+    id: a713af6e-6f95-49e2-a9f7-1d9a5a7c5dae
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 09_visualizations
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 4000
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Displays comprehensive analysis summary including top behavioral
+      predictors, engagement patterns, workflow patterns, machine learning model performance,
+      and actionable product recommendations
+    height: 1000
+    id: ac55ef60-f03c-4f72-998b-cc660c1ec93d
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 11_final_insights
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 5000
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Maps event sequences to identify and visualize top 20 user workflows,
+      calculating success rates per transition pattern
+    height: 1000
+    id: ace177d5-7f76-4e06-ae75-caab2d46c341
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 07_workflow_analysis
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 3000
+  - auto_size: false
+    canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    compute_settings: null
+    description: Loads hackathon dataset and displays schema overview including row
+      counts, data types, and summary statistics
+    height: 1000
+    id: f98333ed-10ba-419c-964f-df527167527e
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    name: 01_load_data
+    parent_id: null
+    properties:
+      interactive_execution: false
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 0
+  canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+  edges:
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 23818065-a832-4d9e-b10f-fc5f543dc224
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: a501a4d4-c9ad-4cb7-a833-95df28306177
+    target: 5cb901d8-7dfb-4f9a-bbdf-7939e9e84b91
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 4c92214a-a622-49d0-96da-1b03f066df7b
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: f98333ed-10ba-419c-964f-df527167527e
+    target: a501a4d4-c9ad-4cb7-a833-95df28306177
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 7e3272b4-0131-45a6-96b9-268c546c9d8d
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 26a0c38a-f736-4ece-b685-6fa770406359
+    target: ac55ef60-f03c-4f72-998b-cc660c1ec93d
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 814769b7-92ed-4515-a57e-6d9e6ceaa53e
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: a713af6e-6f95-49e2-a9f7-1d9a5a7c5dae
+    target: 26a0c38a-f736-4ece-b685-6fa770406359
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 93bcf39a-3e89-4732-9a10-9849d2cfe42b
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: ace177d5-7f76-4e06-ae75-caab2d46c341
+    target: 1bf852bd-8592-4dc2-a239-6b41324cc6cd
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: 9d66cfc9-28e1-49db-b74e-ca5665eddf8b
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 1bf852bd-8592-4dc2-a239-6b41324cc6cd
+    target: a713af6e-6f95-49e2-a9f7-1d9a5a7c5dae
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: b0969dcb-6cc2-4714-ac28-3de56384b36b
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 164adb97-ff7c-4c3c-a620-3187c3f18166
+    target: 2687cfc1-9ab9-475b-9626-2ae85bd7c9c9
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: bad5847d-478a-49a4-806e-0daea476cd0e
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 8d8ab4e0-5a6f-4191-9a3f-607c91ca8871
+    target: ace177d5-7f76-4e06-ae75-caab2d46c341
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: c54d42b4-5a50-48e7-9182-ab09e6b51c69
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 2687cfc1-9ab9-475b-9626-2ae85bd7c9c9
+    target: 8d8ab4e0-5a6f-4191-9a3f-607c91ca8871
+  - canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
+    id: e743a44e-f42c-4e58-b3d2-37629d275be6
+    layer_id: 1b20262c-e302-4b54-a078-6748660c9611
+    source: 5cb901d8-7dfb-4f9a-bbdf-7939e9e84b91
+    target: 164adb97-ff7c-4c3c-a620-3187c3f18166
+  id: 1b20262c-e302-4b54-a078-6748660c9611
+  name: Development
+  type: 1
+assets: []
