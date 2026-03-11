@@ -14,7 +14,7 @@ blocks:
   name: 04_user_features
   parent_id: null
   properties: {}
-  status: 4
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -32,7 +32,7 @@ blocks:
   name: 08_success_prediction
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -49,7 +49,7 @@ blocks:
   name: 05_define_success_metric
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -66,7 +66,7 @@ blocks:
   name: 10_workflow_graph
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -102,7 +102,7 @@ blocks:
   name: 06_behavior_analysis
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -137,7 +137,7 @@ blocks:
   name: 09_visualizations
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -155,7 +155,7 @@ blocks:
   name: 11_final_insights
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -173,7 +173,7 @@ blocks:
   name: 07_workflow_analysis
   parent_id: null
   properties: {}
-  status: 1
+  status: 3
   type: 1
   variables: null
   width: 1600
@@ -191,7 +191,7 @@ blocks:
   parent_id: null
   properties:
     interactive_execution: false
-  status: 4
+  status: 3
   type: 1
   variables: null
   width: 1600
