@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import pandas as pd
+import numpy as np
 
 # ── 1. Core metrics ──────────────────────────────────────────────────────────
 total_users  = cleaned_df["distinct_id"].nunique()
@@ -145,12 +146,17 @@ for bar in bars2:
 plt.tight_layout()
 plt.show()
 
-# ── 8. Distribution of engagement ────────────────────────────────────────────
-plt.figure(figsize=(8,5))
-plt.hist(events_per_user, bins=50)
-plt.title("Distribution of Events per User")
-plt.xlabel("Events per User")
-plt.ylabel("Number of Users")
+# ── 8. Log-transformed distribution of engagement ────────────────────────────
+events_per_user = cleaned_df.groupby("distinct_id").size()
+log_events = np.log1p(events_per_user)
+
+plt.figure(figsize=(10, 5))
+plt.hist(log_events, bins=50, color="#4C72B0", edgecolor="white", linewidth=0.5)
+plt.title("Log Distribution of Events per User", fontsize=14, fontweight="bold")
+plt.xlabel("log(events + 1)", fontsize=11)
+plt.ylabel("Users", fontsize=11)
+plt.gca().spines[["top", "right"]].set_visible(False)
+plt.tight_layout()
 plt.show()
 
 # ── 9. Interpretation ────────────────────────────────────────────────────────

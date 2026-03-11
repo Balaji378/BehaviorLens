@@ -14,7 +14,7 @@ blocks:
   name: 04_user_features
   parent_id: null
   properties: {}
-  status: 3
+  status: 4
   type: 1
   variables: null
   width: 1600
@@ -32,7 +32,7 @@ blocks:
   name: 08_success_prediction
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -49,7 +49,7 @@ blocks:
   name: 05_define_success_metric
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -66,7 +66,7 @@ blocks:
   name: 10_workflow_graph
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -75,9 +75,9 @@ blocks:
 - auto_size: false
   canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
   compute_settings: null
-  description: 'Analyzes event distribution and tool usage patterns: identifies top
-    15 most frequent events and top 10 tools, calculates events per user metrics,
-    creates visual charts, and interprets user engagement concentration'
+  description: Analyzes event distribution across users; calculates top 15 events
+    and 10 tools, engagement metrics, and generates visualizations showing event concentration
+    patterns
   height: 1000
   id: 5cb901d8-7dfb-4f9a-bbdf-7939e9e84b91
   layer_id: 1b20262c-e302-4b54-a078-6748660c9611
@@ -93,15 +93,16 @@ blocks:
 - auto_size: false
   canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
   compute_settings: null
-  description: Identifies events most predictive of long-term user success via correlation
-    analysis and creates ranked visualization chart
+  description: Identifies behaviors most predictive of user success by correlating
+    112+ user events with long-term engagement, filtering rare events, ranking by
+    correlation strength, and visualizing top 10 success drivers
   height: 1000
   id: 8d8ab4e0-5a6f-4191-9a3f-607c91ca8871
   layer_id: 1b20262c-e302-4b54-a078-6748660c9611
   name: 06_behavior_analysis
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -136,7 +137,7 @@ blocks:
   name: 09_visualizations
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -154,7 +155,7 @@ blocks:
   name: 11_final_insights
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -163,15 +164,16 @@ blocks:
 - auto_size: false
   canvas_id: 06d77f9a-f78a-49fb-8308-14d22a0d8f2f
   compute_settings: null
-  description: Maps event sequences to identify and visualize top 20 user workflows,
-    calculating success rates per transition pattern
+  description: Maps user event timelines into next-event transitions, identifies top
+    20 workflows by frequency, calculates success rates per transition pair, and splits
+    analysis by successful vs unsuccessful user groups.
   height: 1000
   id: ace177d5-7f76-4e06-ae75-caab2d46c341
   layer_id: 1b20262c-e302-4b54-a078-6748660c9611
   name: 07_workflow_analysis
   parent_id: null
   properties: {}
-  status: 3
+  status: 1
   type: 1
   variables: null
   width: 1600
@@ -189,7 +191,7 @@ blocks:
   parent_id: null
   properties:
     interactive_execution: false
-  status: 3
+  status: 4
   type: 1
   variables: null
   width: 1600

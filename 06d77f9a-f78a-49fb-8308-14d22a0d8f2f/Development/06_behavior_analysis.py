@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from scipy.stats import mannwhitneyu
 
 # ── 1. Build event frequency matrix (pivot table) ────────────────────────────
 event_matrix = (
@@ -46,8 +47,8 @@ print("\n" + "=" * 60)
 print("Top 15 Events Most Positively Correlated with Success")
 print("=" * 60)
 
-for rank, (event, corr) in enumerate(top15_corr.items(), 1):
-    print(f"{rank:2d}. {event:<45s}  r = {corr:.4f}")
+for rank, (evt, corr) in enumerate(top15_corr.items(), 1):
+    print(f"{rank:2d}. {evt:<45s}  r = {corr:.4f}")
 
 # ── 6. Negative correlations (anti-patterns) ─────────────────────────────────
 bottom10_corr = event_correlations.tail(10)
@@ -56,53 +57,58 @@ print("\n" + "=" * 60)
 print("Events Negatively Correlated with Success")
 print("=" * 60)
 
-for rank, (event, corr) in enumerate(bottom10_corr.items(), 1):
-    print(f"{rank:2d}. {event:<45s}  r = {corr:.4f}")
+for rank, (evt, corr) in enumerate(bottom10_corr.items(), 1):
+    print(f"{rank:2d}. {evt:<45s}  r = {corr:.4f}")
 
 # ── 7. Event success rates ───────────────────────────────────────────────────
-event_success_rates = {}
+event_success_rates_dict = {}
 
-for event in valid_event_cols:
-
-    users_with_event = behavior_df[behavior_df[event] > 0]
-
+for evt in valid_event_cols:
+    users_with_event = behavior_df[behavior_df[evt] > 0]
     if len(users_with_event) > 0:
-        success_rate = users_with_event["successful_user"].mean()
-        event_success_rates[event] = success_rate
+        sr = users_with_event["successful_user"].mean()
+        event_success_rates_dict[evt] = sr
 
 event_success_rates = (
-    pd.Series(event_success_rates)
+    pd.Series(event_success_rates_dict)
     .sort_values(ascending=False)
 )
 
 print("\n" + "=" * 60)
 print("Events with Highest Success Rate")
 print("=" * 60)
-
 print(event_success_rates.head(10))
 
-# ── 8. Visualization: Top Predictive Behaviors ───────────────────────────────
+# ── 8. Split into successful / non-successful groups ─────────────────────────
+successful_users = behavior_df[behavior_df['successful_user'] == True]
+nonsuccessful_users = behavior_df[behavior_df['successful_user'] == False]
+
+print(f"\nSuccessful users: {len(successful_users):,}  |  Non-successful: {len(nonsuccessful_users):,}")
+
+# ── 9. Visualization: Top Predictive Behaviors (Zerve theme) ─────────────────
 top10_corr = event_correlations.head(10).iloc[::-1]
 
-colors = plt.cm.RdYlGn(
-    np.linspace(0.45, 0.85, len(top10_corr))
-)
+BG = '#1D1D20'
+TEXT = '#fbfbff'
+COLORS = ['#A1C9F4', '#FFB482', '#8DE5A1', '#FF9F9B', '#D0BBFF',
+          '#ffd400', '#17b26a', '#f04438', '#9467BD', '#C49C94']
 
-fig, ax = plt.subplots(figsize=(11, 6))
+bar_colors = COLORS[:len(top10_corr)]
 
-bars = ax.barh(
+fig_behavior, ax_behavior = plt.subplots(figsize=(11, 6), facecolor=BG)
+ax_behavior.set_facecolor(BG)
+
+bars = ax_behavior.barh(
     range(len(top10_corr)),
     top10_corr.values,
-    color=colors,
-    edgecolor='white',
-    linewidth=0.6,
+    color=bar_colors,
+    edgecolor='none',
     height=0.65,
 )
 
 # Label bars
 for bar_patch, val in zip(bars, top10_corr.values):
-
-    ax.text(
+    ax_behavior.text(
         val + 0.002,
         bar_patch.get_y() + bar_patch.get_height() / 2,
         f'{val:.3f}',
@@ -110,39 +116,61 @@ for bar_patch, val in zip(bars, top10_corr.values):
         ha='left',
         fontsize=9,
         fontweight='bold',
+        color=TEXT,
     )
 
-ax.set_yticks(range(len(top10_corr)))
-ax.set_yticklabels(
+ax_behavior.set_yticks(range(len(top10_corr)))
+ax_behavior.set_yticklabels(
     [e.replace('_', ' ').title() for e in top10_corr.index],
     fontsize=10,
+    color=TEXT,
 )
+ax_behavior.tick_params(axis='x', colors=TEXT)
 
-ax.set_xlabel("Pearson Correlation with Successful User", fontsize=11)
-
-ax.set_title(
+ax_behavior.set_xlabel("Pearson Correlation with Successful User", fontsize=11, color=TEXT)
+ax_behavior.set_title(
     "Top 10 User Behaviors That Predict Long-Term Success",
     fontsize=14,
     fontweight='bold',
+    color=TEXT,
+    pad=14,
 )
 
-ax.axvline(0, color='#aaaaaa', linewidth=0.8, linestyle='--')
+ax_behavior.axvline(0, color='#909094', linewidth=0.8, linestyle='--')
+ax_behavior.set_xlim(0, top10_corr.max() * 1.22)
 
-ax.xaxis.set_major_formatter(mticker.FormatStrFormatter('%.2f'))
-
-ax.set_xlim(0, top10_corr.max() * 1.22)
-
-ax.spines[['top', 'right']].set_visible(False)
-
-ax.grid(axis='x', alpha=0.3, linestyle='--')
+for spine in ax_behavior.spines.values():
+    spine.set_edgecolor('#909094')
+ax_behavior.spines[['top', 'right']].set_visible(False)
+ax_behavior.grid(axis='x', alpha=0.2, linestyle='--', color='#909094')
 
 plt.tight_layout()
-
-plt.savefig("top10_success_behaviors.png", dpi=150)
-
+plt.savefig("top10_success_behaviors.png", dpi=150, facecolor=BG, bbox_inches='tight')
 plt.show()
 
 print("\nChart saved → top10_success_behaviors.png")
 
-# Return dataframe for next blocks
+# ── 10. Statistical Significance Tests (Mann–Whitney U) ───────────────────────
+behavior_metrics = [
+    "number_of_sessions",
+    "total_events",
+    "number_of_event_types"
+]
+
+print("\nStatistical Significance Tests (Mann–Whitney U)")
+print("=" * 50)
+
+for m in behavior_metrics:
+    s = successful_users[m]
+    ns = nonsuccessful_users[m]
+
+    stat, p = mannwhitneyu(s, ns, alternative="two-sided")
+
+    sig = "✓ Significant (p < 0.05)" if p < 0.05 else "✗ Not significant"
+    print(f"{m}")
+    print(f"  Successful median: {s.median():.1f}  |  Non-successful median: {ns.median():.1f}")
+    print(f"  U-statistic: {stat:.2f}, p-value: {p:.5f}  — {sig}")
+    print()
+
+# ── Return dataframe for next blocks ─────────────────────────────────────────
 behavior_df

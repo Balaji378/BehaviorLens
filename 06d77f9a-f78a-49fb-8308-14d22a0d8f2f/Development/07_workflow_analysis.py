@@ -69,25 +69,39 @@ for i, row in top20.iterrows():
         f"(count={row['count']:,}, success_rate={row['success_rate']:.2f})"
     )
 
-# ── 8. Visualisation ────────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(12,8))
+# ── 8. Visualisation: Top User Workflow Transitions ─────────────────────────
+_BG   = "#1D1D20"
+_TEXT = "#fbfbff"
+_SUB  = "#909094"
+
+fig, ax = plt.subplots(figsize=(12, 8), facecolor=_BG)
+ax.set_facecolor(_BG)
 
 bars = ax.barh(
     range(len(top20)),
     top20['count'],
-    color="#5DADE2"
+    color="#A1C9F4",
+    edgecolor="none",
+    height=0.7
 )
 
 ax.set_yticks(range(len(top20)))
-ax.set_yticklabels(top20['transition'], fontsize=9)
+ax.set_yticklabels(top20['transition'], fontsize=9, color=_TEXT)
 
-ax.set_xlabel("Transition Count")
-ax.set_title("Top User Workflow Transitions")
+ax.set_xlabel("Transition Count", color=_SUB, fontsize=10)
+ax.set_title("Top 20 User Workflow Transitions", color=_TEXT, fontsize=13, fontweight='bold', pad=12)
 
 ax.invert_yaxis()
+ax.tick_params(axis='x', colors=_SUB)
+ax.tick_params(axis='y', colors=_TEXT)
+for _spine in ax.spines.values():
+    _spine.set_edgecolor("#333337")
 
 for i, val in enumerate(top20['count']):
-    ax.text(val + 2, i, f"{val:,}", va='center')
+    ax.text(val + top20['count'].max() * 0.01, i, f"{val:,}",
+            va='center', ha='left', fontsize=8, color=_TEXT)
+
+ax.set_xlim(0, top20['count'].max() * 1.18)
 
 plt.tight_layout()
 plt.show()
@@ -111,6 +125,93 @@ for i, row in high_success.iterrows():
 transitions.to_csv("workflow_transitions_analysis.csv", index=False)
 
 print("\nTransition dataset saved → workflow_transitions_analysis.csv")
+
+# ── 11. Transition analysis: split by successful_user ───────────────────────
+success_trans = (
+    wf[wf['successful_user'] == True]
+    .groupby(['event', 'next_event'])
+    .size()
+    .reset_index(name='count')
+)
+success_trans = success_trans[success_trans['event'] != success_trans['next_event']]
+success_trans = success_trans[success_trans['count'] >= min_transition_count]
+success_trans = success_trans.sort_values('count', ascending=False).reset_index(drop=True)
+
+nonsuccess_trans = (
+    wf[wf['successful_user'] == False]
+    .groupby(['event', 'next_event'])
+    .size()
+    .reset_index(name='count')
+)
+nonsuccess_trans = nonsuccess_trans[nonsuccess_trans['event'] != nonsuccess_trans['next_event']]
+nonsuccess_trans = nonsuccess_trans[nonsuccess_trans['count'] >= min_transition_count]
+nonsuccess_trans = nonsuccess_trans.sort_values('count', ascending=False).reset_index(drop=True)
+
+# Rename for downstream clarity
+success_transitions = success_trans.copy()
+nonsuccess_transitions = nonsuccess_trans.copy()
+
+# ── 11b. Transition success rate: group by event_name and next_event ─────────
+transition_success = (
+    wf.groupby(['event', 'next_event'])['successful_user']
+    .mean()
+    .reset_index(name='success_rate')
+    .sort_values('success_rate', ascending=False)
+)
+
+print("\n" + "=" * 70)
+print("TRANSITION SUCCESS RATES (sorted descending)")
+print("=" * 70)
+print(f"Total transition pairs: {len(transition_success):,}")
+print(transition_success.head(10).to_string(index=False))
+
+print("\n" + "=" * 70)
+print("TRANSITION ANALYSIS BY USER SUCCESS")
+print("=" * 70)
+print(f"Successful user transitions (≥{min_transition_count} occurrences): {len(success_transitions):,} unique pairs")
+print(f"Non-successful user transitions (≥{min_transition_count} occurrences): {len(nonsuccess_transitions):,} unique pairs")
+
+print("\nTop 10 transitions — SUCCESSFUL users:")
+print(success_transitions.head(10).to_string(index=False))
+
+print("\nTop 10 transitions — NON-SUCCESSFUL users:")
+print(nonsuccess_transitions.head(10).to_string(index=False))
+
+# ── 12. Successful users transitions chart ──────────────────────────────────
+_COLOR_SUCCESS = "#8DE5A1"   # green  — successful users
+_N = 15
+
+_s_top = success_transitions.head(_N).copy()
+_s_top['label'] = _s_top['event'] + " → " + _s_top['next_event']
+
+transitions_comparison_fig, _ax_s = plt.subplots(figsize=(12, 8), facecolor=_BG)
+_ax_s.set_facecolor(_BG)
+
+_ax_s.barh(
+    range(len(_s_top)),
+    _s_top['count'],
+    color=_COLOR_SUCCESS,
+    edgecolor="none",
+    height=0.7
+)
+_ax_s.set_yticks(range(len(_s_top)))
+_ax_s.set_yticklabels(_s_top['label'], fontsize=9, color=_TEXT)
+_ax_s.invert_yaxis()
+_ax_s.set_xlabel("Transition Count", color=_SUB, fontsize=10)
+_ax_s.set_title("✅  Top Event Transitions — Successful Users", color=_COLOR_SUCCESS, fontsize=13, fontweight='bold', pad=12)
+_ax_s.tick_params(axis='x', colors=_SUB)
+_ax_s.tick_params(axis='y', colors=_TEXT)
+for _spine in _ax_s.spines.values():
+    _spine.set_edgecolor("#333337")
+
+# Value labels
+for _idx, _v in enumerate(_s_top['count']):
+    _ax_s.text(_v + _s_top['count'].max() * 0.01, _idx, f"{_v:,}",
+               va='center', ha='left', fontsize=8, color=_TEXT)
+_ax_s.set_xlim(0, _s_top['count'].max() * 1.18)
+
+plt.tight_layout()
+plt.show()
 
 # Return for next blocks
 transitions
